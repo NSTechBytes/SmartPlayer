@@ -199,6 +199,7 @@ function style1() {
 }
 
 function style2() {
+    ui.beginUpdate();
     ui.addShape({
         id: "background",
         type: "rectangle",
@@ -391,11 +392,214 @@ function style2() {
             ipcRenderer.send("media-control", "playpause");
         }
     });
+    ui.endUpdate();
 }
 
+function style3() {
+    ui.beginUpdate();
+
+    ui.addShape({
+        id: "background",
+        type: "rectangle",
+        width: (350 * scale),
+        height: (480 * scale),
+        radius: 12,
+        fillColor: "rgba(224, 229, 236, 1)"
+    });
+
+    ui.addShape({
+        id: "cover-container",
+        type: "ellipse",
+        x: ((350 * scale - 220 * scale) / 2),
+        width: (220 * scale),
+        height: (220 * scale),
+        y: (20 * scale),
+        fillColor: "rgba(5, 6, 6, 1)"
+    });
+
+    ui.addImage({
+        id: "cover-image",
+        width: (220 * scale),
+        height: (220 * scale),
+        path: "./assets/cover-white.png",
+        container: "cover-container",
+    });
+
+    // Song title text
+    ui.addText({
+        id: "song-title",
+        text: "---",
+        fontColor: "rgba(20, 20, 20, 1)",
+        fontFace: "Segoe UI",
+        textAlign: "center",
+        fontSize: (20 * scale),
+        fontWeight: 700,
+        x: ((350 * scale) / 2),
+        y: (20 * scale + 220 * scale + 20 * scale),
+        width: ((350 * scale) - 40 * scale),
+        textClip: "ellipsis"
+    });
+
+    // Song artist text
+    ui.addText({
+        id: "song-artist",
+        text: "---",
+        fontColor: "rgba(80, 80, 80, 1)",
+        fontFace: "Segoe UI",
+        textAlign: "center",
+        fontSize: (15 * scale),
+        x: ((350 * scale) / 2),
+        y: (ui.getElementProperty("song-title", "y") + 30 * scale),
+        width: ((350 * scale) - 40 * scale),
+        textClip: "ellipsis"
+    });
+
+    // Song progress bar
+    ui.addBar({
+        id: "song-progress-bar",
+        x: (350 - 290) / 2 * scale,
+        y: (ui.getElementProperty("song-artist", "y") + 50 * scale),
+        width: (290 * scale),
+        height: (6 * scale),
+        value: 1,
+        barColor: "rgba(0, 120, 255, 1)",
+        backgroundColor: "rgba(200, 205, 212, 1)",
+        backgroundColorRadius: (4 * scale),
+        barCornerRadius: (4 * scale),
+        onLeftMouseUp: (e) => {
+            const pct = Math.max(0, Math.min(100, e?.__offsetXPercent ?? 0));
+            ipcRenderer.send("media-seek", pct);
+        }
+    });
+
+    // Position text
+    ui.addText({
+        id: "position-text",
+        text: "00:00",
+        fontColor: "rgba(100, 100, 100, 1)",
+        fontFace: "Segoe UI",
+        textAlign: "left",
+        fontSize: (12 * scale),
+        x: (32 * scale),
+        y: (ui.getElementProperty("song-progress-bar", "y") + 15 * scale),
+    });
+
+    // Duration text
+    ui.addText({
+        id: "duration-text",
+        text: "00:00",
+        fontColor: "rgba(100, 100, 100, 1)",
+        fontFace: "Segoe UI",
+        textAlign: "right",
+        fontSize: (12 * scale),
+        x: ((350 * scale) - 32 * scale),
+        y: (ui.getElementProperty("song-progress-bar", "y") + 15 * scale),
+    });
+
+    // Previous button
+    ui.addShape({
+        id: "previous-bg-shape",
+        type: "ellipse",
+        x: ((350 * scale) / 2 - 100 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 40 * scale),
+        width: (45 * scale),
+        height: (45 * scale),
+        fillColor: "rgba(0, 120, 255, 0.1)",
+        strokeWidth: 0,
+        onMouseOver: function () {
+            ui.setElementProperties("previous-bg-shape", { fillColor: "rgba(0, 120, 255, 0.2)" });
+        },
+        onMouseLeave: function () {
+            ui.setElementProperties("previous-bg-shape", { fillColor: "rgba(0, 120, 255, 0.1)" });
+        },
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "previous");
+        }
+    });
+
+    ui.addImage({
+        id: "previous-png",
+        x: ((350 * scale) / 2 - 100 * scale + 12 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 40 * scale + 12 * scale),
+        width: (21 * scale),
+        height: (21 * scale),
+        path: "./assets/previous.png",
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "previous");
+        }
+    });
+
+    // Play/Pause button
+    ui.addShape({
+        id: "playpause-bg-shape",
+        type: "ellipse",
+        x: ((350 * scale) / 2 - 35 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 27.5 * scale),
+        width: (70 * scale),
+        height: (70 * scale),
+        fillColor: "rgba(0, 120, 255, 1)",
+        strokeWidth: 0,
+        onMouseOver: function () {
+            ui.setElementProperties("playpause-bg-shape", { fillColor: "rgba(0, 140, 255, 1)" });
+        },
+        onMouseLeave: function () {
+            ui.setElementProperties("playpause-bg-shape", { fillColor: "rgba(0, 120, 255, 1)" });
+        },
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "playpause");
+        }
+    });
+
+    ui.addImage({
+        id: "playpause-png",
+        x: ((350 * scale) / 2 - 35 * scale + 20 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 27.5 * scale + 20 * scale),
+        width: (30 * scale),
+        height: (30 * scale),
+        path: "./assets/play.png",
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "playpause");
+        }
+    });
+
+    // Next button
+    ui.addShape({
+        id: "next-bg-shape",
+        type: "ellipse",
+        x: ((350 * scale) / 2 + 55 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 40 * scale),
+        width: (45 * scale),
+        height: (45 * scale),
+        fillColor: "rgba(0, 120, 255, 0.1)",
+        strokeWidth: 0,
+        onMouseOver: function () {
+            ui.setElementProperties("next-bg-shape", { fillColor: "rgba(0, 120, 255, 0.2)" });
+        },
+        onMouseLeave: function () {
+            ui.setElementProperties("next-bg-shape", { fillColor: "rgba(0, 120, 255, 0.1)" });
+        },
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "next");
+        }
+    });
+
+    ui.addImage({
+        id: "next-png",
+        x: ((350 * scale) / 2 + 55 * scale + 12 * scale),
+        y: (ui.getElementProperty("duration-text", "y") + 40 * scale + 12 * scale),
+        width: (21 * scale),
+        height: (21 * scale),
+        path: "./assets/next.png",
+        onLeftMouseUp: () => {
+            ipcRenderer.send("media-control", "next");
+        }
+    });
+
+    ui.endUpdate();
+}
 ipcRenderer.on("now-playing-update", (event, data) => {
 
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(data, null, 2))
     ui.beginUpdate();
     // Update song title
     if (data.title) {
