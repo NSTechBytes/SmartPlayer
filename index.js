@@ -8,9 +8,9 @@ ipcMain.handle("get-json-data", (event, payload) => {
 });
 
 var smartPlayerWindow = new widgetWindow({
-    id: "smartPlayerWindow",
-    script: "ui/script.ui.js",
-    backgroundColor: "rgba(10,10,10,0.5)",
+  id: "smartPlayerWindow",
+  script: "ui/script.ui.js",
+  backgroundColor: "rgba(10,10,10,0.5)",
 });
 
 smartPlayerWindow.setContextMenu([
@@ -19,7 +19,7 @@ smartPlayerWindow.setContextMenu([
 
 const blurBehind = addon.load(path.join(__addonsPath, "blurbehind"));
 const hwnd = String(smartPlayerWindow.getHandle());
-blurBehind.apply(hwnd, "blurbehind", "round");
+blurBehind.apply(hwnd, "acrylic", "round");
 
 const nowPlaying = addon.load(path.join(__addonsPath, "nowplaying"));
 
@@ -57,6 +57,28 @@ var nowPlayingTimer = setInterval(() => {
   ipcMain.send("now-playing-update", stats);
 }, 1000);
 
+// Audio Level addon for visualizer bars
+const audioLevel = addon.load(path.join(__addonsPath, "audiolevel"));
+
+const audioStatsOptions = {
+  port: "output",
+  fftSize: 1024,
+  fftOverlap: 512,
+  bands: 4,
+  rmsGain: 120,
+  fftAttack: 50,
+  fftDecay: 200,
+  sensitivity: 100
+};
+
+var audioLevelTimer = setInterval(() => {
+  const data = audioLevel.stats(audioStatsOptions);
+  if (data) {
+    ipcMain.send("audio-data", data);
+  }
+}, 33);
+
 smartPlayerWindow.on("close", () => {
   clearInterval(nowPlayingTimer);
+  clearInterval(audioLevelTimer);
 });
