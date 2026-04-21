@@ -5,7 +5,7 @@
   "author": "nstechbytes",
   "description": "A smart and fluent music player widget for your desktop.",
   "icon": "assets/icon.ico",
-  "preview": "defaultPreview.png",
+  "preview": ".github/preview.png",
   "setup": {
     "createDesktopShortcut": true,
     "createStartupShortcut": false,
@@ -16,5 +16,10 @@
     "setupIcon": "assets/icon.ico",
     "enableUninstall": true,
     "launchAfterInstall": false
-  }
+  },
+  "addons": [
+    "audiolevel",
+    "blurbehind",
+    "nowplaying"
+  ]
 }
