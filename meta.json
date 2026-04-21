@@ -1,0 +1,20 @@
+{
+  "name": "SmartPlayer",
+  "main": "index.js",
+  "version": "1.0.0.0",
+  "author": "nstechbytes",
+  "description": "A smart and fluent music player widget for your desktop.",
+  "icon": "assets/icon.ico",
+  "preview": "defaultPreview.png",
+  "setup": {
+    "createDesktopShortcut": true,
+    "createStartupShortcut": false,
+    "runOnStartup": false,
+    "installDir": "%ProgramFiles%\\SmartPlayer",
+    "startMenuFolder": "SmartPlayer",
+    "setupName": "setup",
+    "setupIcon": "assets/icon.ico",
+    "enableUninstall": true,
+    "launchAfterInstall": false
+  }
+}
