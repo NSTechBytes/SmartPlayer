@@ -67,8 +67,7 @@ You can also change these live via the **right-click context menu** on the widge
 
 ## Building from Source
 
-Make sure [nwm](https://github.com/OfficialNovadesk) is installed and Novadesk is set up in the parent directory.
-
+Make sure nwm is available in your path that comes default with novadesk.
 ```bash
 nwm build
 ```
