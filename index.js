@@ -1,7 +1,7 @@
 import { addon, widgetWindow } from "novadesk";
 import { json } from "system";
 
-const jsonData = json.read("./config.json");
+let jsonData = json.read("./config.json");
 
 ipcMain.handle("get-json-data", (event, payload) => {
   return jsonData;
@@ -13,9 +13,45 @@ var smartPlayerWindow = new widgetWindow({
   backgroundColor: "rgba(10,10,10,0.5)",
 });
 
-smartPlayerWindow.setContextMenu([
-  { text: "Refresh", action: () => smartPlayerWindow.refresh() },
-]);
+// ============================================================================
+// Context Menu with Scale & Style submenus
+// ============================================================================
+
+function buildContextMenu() {
+  const scaleOptions = [0.75, 1, 1.25];
+  const styleOptions = [1, 2, 3, 4, 5];
+
+  const scaleItems = scaleOptions.map((s) => ({
+    text: s + "x",
+    checked: jsonData.scale === s,
+    action: () => {
+      jsonData.scale = s;
+      json.write("./config.json", jsonData);
+      ipcMain.send("update-settings", jsonData);
+      buildContextMenu();
+    },
+  }));
+
+  const styleItems = styleOptions.map((st) => ({
+    text: "Style " + st,
+    checked: jsonData.style === st,
+    action: () => {
+      jsonData.style = st;
+      json.write("./config.json", jsonData);
+      ipcMain.send("update-settings", jsonData);
+      buildContextMenu();
+    },
+  }));
+
+  smartPlayerWindow.setContextMenu([
+    { text: "Scale", items: scaleItems },
+    { text: "Style", items: styleItems },
+    { type: "separator" },
+    { text: "Refresh", action: () => smartPlayerWindow.refresh() },
+  ]);
+}
+
+buildContextMenu();
 
 const blurBehind = addon.load(path.join(__addonsPath, "blurbehind"));
 const hwnd = String(smartPlayerWindow.getHandle());

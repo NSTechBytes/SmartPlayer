@@ -1041,7 +1041,6 @@ ipcRenderer.on("audio-data", function (event, data) {
         const floorY = baseCenterY + 127 * scale; // Original y (130) + original height (12)
         const maxBarHeight = 30 * scale;
         const minBarHeight = 2 * scale;
-
         for (let i = 0; i < 4; i++) {
             let v = i < data.bands.length ? data.bands[i] : 0;
             let h = Math.max(minBarHeight, v * maxBarHeight);
@@ -1051,4 +1050,10 @@ ipcRenderer.on("audio-data", function (event, data) {
         }
         ui.endUpdate();
     }
+});
+
+ipcRenderer.on("update-settings", (event, data) => {
+    scale = data.scale;
+    style = data.style;
+    applyStyle(style);
 });
