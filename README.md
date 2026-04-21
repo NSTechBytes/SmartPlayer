@@ -41,7 +41,7 @@ A smart and fluent music player widget for your desktop, built for [Novadesk](ht
 
 ## Installation
 
-1. Download `SmartPlayer_v1.0.0.0.ndpkg` from the [Releases](../../releases) page.
+1. Download `SmartPlayer_v1.0.0.0.ndpkg` from the [Releases](https://github.com/NSTechBytes/SmartPlayer/releases) page.
 2. Double-click the `.ndpkg` file to install via Novadesk.
 ---
 
