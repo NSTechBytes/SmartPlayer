@@ -75,6 +75,7 @@ nwm build
 Output files will be placed in `dist/`:
 - `setup.exe` — Windows installer
 - `SmartPlayer_v1.0.0.0.ndpkg` — Novadesk package
+- `SmartPlayer_v1.0.0.0.zip` — Widget package
 
 ---
 
