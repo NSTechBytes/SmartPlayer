@@ -30,7 +30,6 @@ function style1() {
         type: "rectangle",
         width: (450 * scale),
         height: (280 * scale),
-        radius: 12,
         fillColor: "rgba(46, 68, 75, 0.7)"
     });
 
@@ -407,7 +406,6 @@ function style3() {
         type: "rectangle",
         width: (350 * scale),
         height: (480 * scale),
-        radius: 12,
         fillColor: "rgba(224, 229, 236, 1)"
     });
 
@@ -611,7 +609,6 @@ function style4() {
         type: "rectangle",
         width: (450 * scale),
         height: (180 * scale),
-        radius: 12,
         fillColor: "rgba(10,10,10,0.2)"
     });
 
