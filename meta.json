@@ -23,6 +23,7 @@
     "nowplaying"
   ],
   "excludeItems": [
-    ".git"
+    ".git",
+    ".github"
   ]
 }
